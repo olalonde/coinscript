@@ -5,9 +5,23 @@ var fs = require('fs');
 var source = fs.readFileSync(__dirname + '/test/source', 'utf8');
 
 // mygenerator.js
-var Parser = require('jison').Parser;
+var jison = require('jison'),
+  Generator = jison.Generator,
+  Parser = jison.Parser,
+  nodes = require('./nodes');
 
-var Parser = require("jison").Parser;
+var unwrap = /^function\s*\(\)\s*\{\s*return\s*([\s\S]*);\s*\}/;
+
+function o (patternString, action) {
+  if (!action)
+    return [patternString, '$$ = $1'];
+
+  var match;
+  action = (match = unwrap.exec(action)) ? match[1] : '(' + action + '())';
+  action = action.replace(/\bnew /g, '$&yy.');
+
+  return [patternString, '$$ = ' + action];
+}
 
 var grammar = {
     lex: {
@@ -27,24 +41,28 @@ var grammar = {
 
     bnf: {
         "declarations": [
-          "FUNCTION IDENTIFIER ( arglist ) { expressions }",
-          "declarations declarations"
+          o("FUNCTION IDENTIFIER ( arglist ) { expressions }"),
+          o("declarations declarations")
         ],
         "arglist": [
-          "IDENTIFIER",
-          "arglist , arglist"
+          o("", function () { return []; }),
+          o("IDENTIFIER", function () { return [$1]; }),
+          o("arglist , IDENTIFIER", function () { return $1.concat($3); })
         ],
         "expressions": [
-          "expression ;",
-          "expressions expressions"
+          o("expression ;"),
+          o("expressions expressions")
         ],
         "expression": [
-          "RETURN IDENTIFIER"
+          o("RETURN IDENTIFIER", function () { return new Expression(); })
         ]
     }
 };
 
+
 var parser = new Parser(grammar);
+
+parser.yy = nodes;
 
 // generate source, ready to be written to disk
 var parserSource = parser.generate();
@@ -55,5 +73,3 @@ console.log(parserSource);
 
 console.log(parser.parse(source));
 // returns true
-debugger;
-console.log('test');
