@@ -1,7 +1,9 @@
 // see http://coffeescript.org/documentation/docs/grammar.html
 // http://dinosaur.compilertools.net/bison/bison_4.html#SEC7
 
-var fs = require('fs');
+var fs = require('fs'),
+  util = require('util');
+
 var source = fs.readFileSync(__dirname + '/test/source', 'utf8');
 
 // mygenerator.js
@@ -39,26 +41,48 @@ var grammar = {
         ]
     },
 
+    //tokens: ["FUNCTION", "(", ")", "{", "}", ",", ";", "RETURN", "IDENTIFIER"],
+
     bnf: {
-        "declarations": [
-          o("FUNCTION IDENTIFIER ( arglist ) { expressions }"),
-          o("declarations declarations")
+        Root: [
+          o('Declarations', function () { return new Root($1); }),
         ],
-        "arglist": [
-          o("", function () { return []; }),
-          o("IDENTIFIER", function () { return [$1]; }),
-          o("arglist , IDENTIFIER", function () { return $1.concat($3); })
+        Declarations: [
+          o('Declaration', function () { return [$1]; }),
+          o('Declarations Declaration', function () { return $1.concat($2); })
         ],
-        "expressions": [
-          o("expression ;"),
-          o("expressions expressions")
+        Declaration: [
+          o('FUNCTION IDENTIFIER ( Arglist ) { Expressions }', function () { return new Func($2, $4, $7); })
+          //o("declarations declarations")
         ],
-        "expression": [
-          o("RETURN IDENTIFIER", function () { return new Expression(); })
+        Arglist: [
+          o('', function () { return []; }),
+          o('IDENTIFIER', function () { return [$1]; }),
+          o('Arglist , IDENTIFIER', function () { return $1.concat($3); })
+        ],
+        Expressions: [
+          o('Expression ;', function () { return [ $1 ]; }),
+          o('Expressions Expression', function () { return $1.concat($2); })
+        ],
+        Expression: [
+          o('RETURN IDENTIFIER', function () { return new Expression($2); })
         ]
     }
 };
 
+// Root should return!
+var bnf = grammar.bnf;
+for (var name in bnf) {
+  var alternatives = bnf[name];
+  for (var i = 0; i < alternatives.length; i++) {
+    // Root node should RETURN!
+    if (name === 'Root') {
+      alternatives[i][1] = 'return ' + alternatives[i][1];
+    }
+  }
+}
+
+console.log(util.inspect(grammar, { depth: null }));
 
 var parser = new Parser(grammar);
 
@@ -67,9 +91,12 @@ parser.yy = nodes;
 // generate source, ready to be written to disk
 var parserSource = parser.generate();
 
-console.log(parserSource);
+fs.writeFileSync('test/parser.js', parserSource);
+//console.log(parserSource);
 
 // you can also use the parser directly from memory
 
-console.log(parser.parse(source));
+var res = parser.parse(source);
+
+console.log(util.inspect(res, { depth: null }));
 // returns true
