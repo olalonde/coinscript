@@ -1,6 +1,11 @@
-function main(param1, param2) {
+function main(sig, pubKey) {
   pubKeyHash = 'somehash....';
-  // comment
-  aaa(wow); // lol
-  aaa(wow);
+
+  pubKeyHashA = hash160(pubKey);
+
+  // should be optimized to OP_EQUALVERIFY
+  //assert(pubKeyHash == pubKeyHashA);
+
+  // should be optimized to OP_CHECKSIGVERIFY
+  assert(checksig(sig, pubkey));
 }

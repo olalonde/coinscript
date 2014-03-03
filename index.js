@@ -64,15 +64,15 @@ var grammar = {
           o('ParamList , IDENTIFIER', function () { return $1.concat($3); })
         ],
         Arg: [
-          o('IDENTIFIER'),
-          o('Value')
+          o('Expression')
         ],
         ArgList: [
           o('Arg', function () { return [$1]; }),
           o('ArgList , Arg', function () { return $1.concat($3); })
         ],
         Value: [
-          o('STRING_LITERAL')
+          // strip quotes
+          o('STRING_LITERAL', function () { yytext = yytext.substr(1, yyleng - 2); return yytext; })
         ],
         Statements: [
           o('', function () { return []; }),
