@@ -22,7 +22,7 @@ function o (patternString, action) {
   action = (match = unwrap.exec(action)) ? match[1] : '(' + action + '())';
   action = action.replace(/\bnew /g, '$&yy.');
 
-  return [patternString, '$$ = ' + action];
+  return [patternString, '$$ = ' + action + '; console.log($1);'];
 }
 
 var grammar = {
@@ -36,8 +36,10 @@ var grammar = {
            ["\\}", "return '}';"],
            [",", "return ',';"],
            [";", "return ';';"],
+           ["=", "return '=';"],
            ["return\\s+", "return 'RETURN';"],
-           ["[a-z]+[0-9]*", "return 'IDENTIFIER';"]
+           ["'[^\\']*'", "return 'STRING_LITERAL';"],
+           ["[a-zA-Z]+[0-9]*", "return 'IDENTIFIER';"]
         ]
     },
 
@@ -52,20 +54,47 @@ var grammar = {
           o('Declarations Declaration', function () { return $1.concat($2); })
         ],
         Declaration: [
-          o('FUNCTION IDENTIFIER ( Arglist ) { Expressions }', function () { return new Func($2, $4, $7); })
+          o('FUNCTION IDENTIFIER ( ParamList ) { Statements }', function () { return new Func($2, $4, $7); })
           //o("declarations declarations")
         ],
-        Arglist: [
+        ParamList: [
           o('', function () { return []; }),
           o('IDENTIFIER', function () { return [$1]; }),
-          o('Arglist , IDENTIFIER', function () { return $1.concat($3); })
+          o('ParamList , IDENTIFIER', function () { return $1.concat($3); })
         ],
-        Expressions: [
-          o('Expression ;', function () { return [ $1 ]; }),
-          o('Expressions Expression', function () { return $1.concat($2); })
+        Arg: [
+          o('IDENTIFIER'),
+          o('Value')
+        ],
+        ArgList: [
+          o('Arg', function () { return [$1]; }),
+          o('ArgList , Arg', function () { return $1.concat($3); })
+        ],
+        Value: [
+          o('STRING_LITERAL')
+        ],
+        Statements: [
+          o('', function () { return []; }),
+          o('Statement ;', function () { return [ $1 ]; }),
+          o('Statements Statement ;', function () { return $1.concat($2); })
+        ],
+        Statement: [
+          o('Assign'),
+          o('Invocation')
         ],
         Expression: [
-          o('RETURN IDENTIFIER', function () { return new Expression($2); })
+          o('Value'),
+          o('IDENTIFIER'),
+          o('Invocation')
+        ],
+        Assignable: [
+          o('Expression')
+        ],
+        Assign: [
+          o('IDENTIFIER = Assignable', function () { return new Assign($1, $3); })
+        ],
+        Invocation: [
+          o('IDENTIFIER ( ArgList )', function () { return new Invocation($1, $3); })
         ]
     }
 };

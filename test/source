@@ -1,3 +1,6 @@
-function main(arg1, arg2) {
-  return abc;
+function main(param1, param2) {
+  pubKeyHash = 'somehash....';
+
+  aaa(wow);
+  aaa(wow);
 }

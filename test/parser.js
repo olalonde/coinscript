@@ -74,38 +74,64 @@
 var parser = (function(){
 var parser = {trace: function trace() { },
 yy: {},
-symbols_: {"error":2,"Root":3,"Declarations":4,"Declaration":5,"FUNCTION":6,"IDENTIFIER":7,"(":8,"Arglist":9,")":10,"{":11,"Expressions":12,"}":13,",":14,"Expression":15,";":16,"RETURN":17,"$accept":0,"$end":1},
-terminals_: {2:"error",6:"FUNCTION",7:"IDENTIFIER",8:"(",10:")",11:"{",13:"}",14:",",16:";",17:"RETURN"},
-productions_: [0,[3,1],[4,1],[4,2],[5,8],[9,0],[9,1],[9,3],[12,2],[12,2],[15,2]],
+symbols_: {"error":2,"Root":3,"Declarations":4,"Declaration":5,"FUNCTION":6,"IDENTIFIER":7,"(":8,"ParamList":9,")":10,"{":11,"Statements":12,"}":13,",":14,"Arg":15,"Value":16,"ArgList":17,"STRING_LITERAL":18,"Statement":19,";":20,"Assign":21,"Invocation":22,"Expression":23,"Assignable":24,"=":25,"$accept":0,"$end":1},
+terminals_: {2:"error",6:"FUNCTION",7:"IDENTIFIER",8:"(",10:")",11:"{",13:"}",14:",",18:"STRING_LITERAL",20:";",25:"="},
+productions_: [0,[3,1],[4,1],[4,2],[5,8],[9,0],[9,1],[9,3],[15,1],[15,1],[17,1],[17,3],[16,1],[12,0],[12,2],[12,3],[19,1],[19,1],[23,1],[23,1],[23,1],[24,1],[21,3],[22,4]],
 performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 /* this == yyval */
 
 var $0 = $$.length - 1;
 switch (yystate) {
-case 1:return this.$ = new yy.Root($$[$0])
+case 1:return this.$ = new yy.Root($$[$0]); console.log($$[$0]);
 break;
-case 2:this.$ = [$$[$0]]
+case 2:this.$ = [$$[$0]]; console.log($$[$0]);
 break;
-case 3:this.$ = $$[$0-1].concat($$[$0])
+case 3:this.$ = $$[$0-1].concat($$[$0]); console.log($$[$0-1]);
 break;
-case 4:this.$ = new yy.Func($$[$0-6], $$[$0-4], $$[$0-1])
+case 4:this.$ = new yy.Func($$[$0-6], $$[$0-4], $$[$0-1]); console.log($$[$0-7]);
 break;
-case 5:this.$ = []
+case 5:this.$ = []; console.log($$[$0]);
 break;
-case 6:this.$ = [$$[$0]]
+case 6:this.$ = [$$[$0]]; console.log($$[$0]);
 break;
-case 7:this.$ = $$[$0-2].concat($$[$0])
+case 7:this.$ = $$[$0-2].concat($$[$0]); console.log($$[$0-2]);
 break;
-case 8:this.$ = [ $$[$0-1] ]
+case 8:this.$ = $$[$0]
 break;
-case 9:this.$ = $$[$0-1].concat($$[$0])
+case 9:this.$ = $$[$0]
 break;
-case 10:this.$ = new yy.Expression($$[$0])
+case 10:this.$ = [$$[$0]]; console.log($$[$0]);
+break;
+case 11:this.$ = $$[$0-2].concat($$[$0]); console.log($$[$0-2]);
+break;
+case 12:this.$ = $$[$0]
+break;
+case 13:this.$ = []; console.log($$[$0]);
+break;
+case 14:this.$ = [ $$[$0-1] ]; console.log($$[$0-1]);
+break;
+case 15:this.$ = $$[$0-2].concat($$[$0-1]); console.log($$[$0-2]);
+break;
+case 16:this.$ = $$[$0]
+break;
+case 17:this.$ = $$[$0]
+break;
+case 18:this.$ = $$[$0]
+break;
+case 19:this.$ = $$[$0]
+break;
+case 20:this.$ = $$[$0]
+break;
+case 21:this.$ = $$[$0]
+break;
+case 22:this.$ = new yy.Assign($$[$0-2], $$[$0]); console.log($$[$0-2]);
+break;
+case 23:this.$ = new yy.Invocation($$[$0-3], $$[$0-1]); console.log($$[$0-3]);
 break;
 }
 },
-table: [{3:1,4:2,5:3,6:[1,4]},{1:[3]},{1:[2,1],5:5,6:[1,4]},{1:[2,2],6:[2,2]},{7:[1,6]},{1:[2,3],6:[2,3]},{8:[1,7]},{7:[1,9],9:8,10:[2,5],14:[2,5]},{10:[1,10],14:[1,11]},{10:[2,6],14:[2,6]},{11:[1,12]},{7:[1,13]},{12:14,15:15,17:[1,16]},{10:[2,7],14:[2,7]},{13:[1,17],15:18,17:[1,16]},{16:[1,19]},{7:[1,20]},{1:[2,4],6:[2,4]},{13:[2,9],17:[2,9]},{13:[2,8],17:[2,8]},{13:[2,10],16:[2,10],17:[2,10]}],
-defaultActions: {},
+table: [{3:1,4:2,5:3,6:[1,4]},{1:[3]},{1:[2,1],5:5,6:[1,4]},{1:[2,2],6:[2,2]},{7:[1,6]},{1:[2,3],6:[2,3]},{8:[1,7]},{7:[1,9],9:8,10:[2,5],14:[2,5]},{10:[1,10],14:[1,11]},{10:[2,6],14:[2,6]},{11:[1,12]},{7:[1,13]},{7:[1,18],12:14,13:[2,13],19:15,21:16,22:17},{10:[2,7],14:[2,7]},{7:[1,18],13:[1,19],19:20,21:16,22:17},{20:[1,21]},{20:[2,16]},{20:[2,17]},{8:[1,23],25:[1,22]},{1:[2,4],6:[2,4]},{20:[1,24]},{7:[2,14],13:[2,14]},{7:[1,28],16:27,18:[1,30],22:29,23:26,24:25},{7:[1,33],15:32,16:34,17:31,18:[1,30]},{7:[2,15],13:[2,15]},{20:[2,22]},{20:[2,21]},{20:[2,18]},{8:[1,23],20:[2,19]},{20:[2,20]},{10:[2,12],14:[2,12],20:[2,12]},{10:[1,35],14:[1,36]},{10:[2,10],14:[2,10]},{10:[2,8],14:[2,8]},{10:[2,9],14:[2,9]},{20:[2,23]},{7:[1,33],15:37,16:34,18:[1,30]},{10:[2,11],14:[2,11]}],
+defaultActions: {16:[2,16],17:[2,17],25:[2,22],26:[2,21],27:[2,18],29:[2,20],35:[2,23]},
 parseError: function parseError(str, hash) {
     if (hash.recoverable) {
         this.trace(str);
@@ -585,16 +611,20 @@ case 5:return 13;
 break;
 case 6:return 14;
 break;
-case 7:return 16;
+case 7:return 20;
 break;
-case 8:return 17;
+case 8:return 25;
 break;
-case 9:return 7;
+case 9:return 'RETURN';
+break;
+case 10:return 18;
+break;
+case 11:return 7;
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:function\s+)/,/^(?:\()/,/^(?:\))/,/^(?:\{)/,/^(?:\})/,/^(?:,)/,/^(?:;)/,/^(?:return\s+)/,/^(?:[a-z]+[0-9]*)/],
-conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9],"inclusive":true}}
+rules: [/^(?:\s+)/,/^(?:function\s+)/,/^(?:\()/,/^(?:\))/,/^(?:\{)/,/^(?:\})/,/^(?:,)/,/^(?:;)/,/^(?:=)/,/^(?:return\s+)/,/^(?:'[^\']*')/,/^(?:[a-zA-Z]+[0-9]*)/],
+conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11],"inclusive":true}}
 };
 return lexer;
 })();

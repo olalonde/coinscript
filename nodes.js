@@ -4,22 +4,28 @@ var Root = function (declarations) {
   this.declarations = declarations;
 };
 
-var Expression = function (expr) {
-  //console.log('new Expression');
-  //console.log(arguments);
-  this.expr = expr;
-};
-
-var Func = function (identifier, arglist, body) {
+var Func = function (identifier, paramlist, body) {
   //console.log('new Func');
   //console.log(arguments);
   this.identifier = identifier;
-  this.arglist = arglist;
+  this.paramlist = paramlist;
   this.body = body;
 };
 
+var Assign = function (variable, value) {
+  this.variable = variable;
+  this.value = value;
+};
+
+var Invocation = function (funcName, arglist) {
+  this.funcName = funcName;
+  this.arglist = arglist;
+};
+
+  //console.log('new Func');
 module.exports = {
   Root: Root,
   Func: Func,
-  Expression: Expression
+  Invocation: Invocation,
+  Assign: Assign
 };
