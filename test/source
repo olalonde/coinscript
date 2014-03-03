@@ -3,9 +3,12 @@ function main(sig, pubKey) {
 
   pubKeyHashA = hash160(pubKey);
 
-  // should be optimized to OP_EQUALVERIFY
-  //assert(pubKeyHash == pubKeyHashA);
+  equal(pubKeyHash, pubKeyHashA);
+  //
+  assert(equal(pubKeyHash, pubKeyHashA));
 
-  // should be optimized to OP_CHECKSIGVERIFY
-  assert(checksig(sig, pubkey));
+  //aa = 'unused variable';
+
+  // should be optimized to OP_CHECKSIGVERIFY?
+  //assert(checksig(sig, pubKey));
 }

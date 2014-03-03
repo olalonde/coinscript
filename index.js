@@ -60,8 +60,11 @@ var grammar = {
         ],
         ParamList: [
           o('', function () { return []; }),
-          o('IDENTIFIER', function () { return [$1]; }),
-          o('ParamList , IDENTIFIER', function () { return $1.concat($3); })
+          o('Param', function () { return [$1]; }),
+          o('ParamList , Param', function () { return $1.concat($3); })
+        ],
+        Param: [
+          o('IDENTIFIER', function () { return new Param($1); }),
         ],
         Arg: [
           o('Expression')
@@ -72,7 +75,7 @@ var grammar = {
         ],
         Value: [
           // strip quotes
-          o('STRING_LITERAL', function () { yytext = yytext.substr(1, yyleng - 2); return yytext; })
+          o('STRING_LITERAL', function () { yytext = yytext.substr(1, yyleng - 2); return new Value(yytext); })
         ],
         Statements: [
           o('', function () { return []; }),
@@ -83,16 +86,19 @@ var grammar = {
           o('Assign'),
           o('Invocation')
         ],
+        Variable: [
+          o('IDENTIFIER', function () { return new Variable($1); })
+        ],
         Expression: [
           o('Value'),
-          o('IDENTIFIER'),
+          o('Variable'),
           o('Invocation')
         ],
         Assignable: [
           o('Expression')
         ],
         Assign: [
-          o('IDENTIFIER = Assignable', function () { return new Assign($1, $3); })
+          o('Variable = Assignable', function () { return new Assign($1, $3); })
         ],
         Invocation: [
           o('IDENTIFIER ( ArgList )', function () { return new Invocation($1, $3); })
@@ -129,4 +135,8 @@ fs.writeFileSync('test/parser.js', parserSource);
 var res = parser.parse(source);
 
 console.log(util.inspect(res, { depth: null }));
+
+var compiled = res.compileFragment();
+
+console.log(compiled);
 // returns true
