@@ -599,32 +599,34 @@ var YYSTATE=YY_START;
 switch($avoiding_name_collisions) {
 case 0:/* ignore whitespace */
 break;
-case 1:return 6;
+case 1:/* ignore comment */
 break;
-case 2:return 8;
+case 2:return 6;
 break;
-case 3:return 10;
+case 3:return 8;
 break;
-case 4:return 11;
+case 4:return 10;
 break;
-case 5:return 13;
+case 5:return 11;
 break;
-case 6:return 14;
+case 6:return 13;
 break;
-case 7:return 20;
+case 7:return 14;
 break;
-case 8:return 25;
+case 8:return 20;
 break;
-case 9:return 'RETURN';
+case 9:return 25;
 break;
-case 10:return 18;
+case 10:return 'RETURN';
 break;
-case 11:return 7;
+case 11:return 18;
+break;
+case 12:return 7;
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:function\s+)/,/^(?:\()/,/^(?:\))/,/^(?:\{)/,/^(?:\})/,/^(?:,)/,/^(?:;)/,/^(?:=)/,/^(?:return\s+)/,/^(?:'[^\']*')/,/^(?:[a-zA-Z]+[0-9]*)/],
-conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11],"inclusive":true}}
+rules: [/^(?:\s+)/,/^(?://.*)/,/^(?:function\s+)/,/^(?:\()/,/^(?:\))/,/^(?:\{)/,/^(?:\})/,/^(?:,)/,/^(?:;)/,/^(?:=)/,/^(?:return\s+)/,/^(?:'[^\']*')/,/^(?:[a-zA-Z]+[0-9]*)/],
+conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12],"inclusive":true}}
 };
 return lexer;
 })();

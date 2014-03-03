@@ -1,6 +1,6 @@
 function main(param1, param2) {
   pubKeyHash = 'somehash....';
-
-  aaa(wow);
+  // comment
+  aaa(wow); // lol
   aaa(wow);
 }

@@ -29,6 +29,7 @@ var grammar = {
     lex: {
         rules: [
            ["\\s+", "/* ignore whitespace */"],
+           ["//.*", "/* ignore comment */"],
            ["function\\s+", "return 'FUNCTION';"],
            ["\\(", "return '(';"],
            ["\\)", "return ')';"],
