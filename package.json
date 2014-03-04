@@ -1,0 +1,28 @@
+{
+  "name": "bitscript",
+  "version": "0.0.1",
+  "description": "Bitscript is a language that compiles to Bitcoin's stack based script language.",
+  "main": "./lib/",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "bitscript": "./cli.js"
+  },
+  "repository": "",
+  "keywords": [
+    "bitcoin",
+    "scriptpubkey",
+    "bitscript"
+  ],
+  "author": "Olivier Lalonde <olalonde@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "jison": "~0.4.13"
+  },
+  "dependencies": {
+    "commander": "~2.1.0",
+    "async": "~0.2.10",
+    "debug": "~0.7.4"
+  }
+}
