@@ -3,11 +3,13 @@ function main(sig, pubKey) {
 
   pubKeyHashA = hash160(pubKey);
 
-  //equal(pubKeyHash, pubKeyHashA);
-  assert(equal(pubKeyHash, pubKeyHashA));
+  equal(pubKey, pubKey);
+
+  equal(pubKeyHash, pubKeyHashA);
+  //assert(equal(pubKeyHash, pubKeyHashA));
 
   aa = 'unused variable';
 
   // should be optimized to OP_CHECKSIGVERIFY?
-  assert(checksig(sig, pubKey));
+  //assert(checksig(sig, pubKey));
 }
