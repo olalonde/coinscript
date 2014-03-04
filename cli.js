@@ -47,7 +47,7 @@ program
 
     var ast = parser.parse(source);
     debug(ast);
-    var compiled = ast.compileFragment();
+    var compiled = ast.compile();
     console.log(compiled);
   });
 
