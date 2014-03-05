@@ -4,7 +4,7 @@
   "description": "Bitscript is a language that compiles to Bitcoin's stack based script language.",
   "main": "./lib/",
   "scripts": {
-    "test": "mocha --reporter spec test/"
+    "test": "./node_modules/.bin/mocha --reporter spec test/"
   },
   "bin": {
     "bitscript": "./cli.js"

@@ -89,6 +89,14 @@ describe('Compiling', function () {
     });
   });
 
+  describe('a function call using an undefined variable as argument', function () {
+    it('should throw an error', function () {
+      should.throws(function () {
+        actual('function-call-undefined-variable', 'compile-errors');
+      }, /undefined/i);
+    });
+  });
+
   names.forEach(function (name) {
     describe(name + '.bitscript', function () {
       var result;
