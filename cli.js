@@ -4,13 +4,13 @@ var program = require('commander'),
   util = require('util'),
   async = require('async'),
   fs = require('fs'),
-  debug = require('debug')('bitscript'),
+  debug = require('debug')('coinscript'),
   jison = require('jison'),
   Parser = jison.Parser,
-  bitscript = require('./lib'),
-  parser = bitscript.parser,
-  nodes = bitscript.nodes,
-  grammar = bitscript.grammar;
+  coinscript = require('./lib'),
+  parser = coinscript.parser,
+  nodes = coinscript.nodes,
+  grammar = coinscript.grammar;
 
 parser.yy = nodes;
 

@@ -1,29 +1,29 @@
-# Bitscript
+# Coinscript
 
 Language and compiler for Bitcoin scripts.
 
-Bitscript uses a Javascript like syntax.
+Coinscript uses a Javascript like syntax.
 
 **Work in progress.**
 
 # Install
 
 ```
-npm install -g bitscript
+npm install -g coinscript
 ```
 
 # Usage
 
-Compile source.bitscript
+Compile source.coinscript
 
 ```
-bitscript source.bitscript > result.out
+coinscript source.coin > result.out
 ```
 
 Generate AST tree
 
 ```
-bitscript ast source.bitscript > ast.json
+coinscript ast source.coin > ast.json
 ```
 
 Options:

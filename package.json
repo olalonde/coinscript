@@ -1,19 +1,19 @@
 {
-  "name": "bitscript",
+  "name": "coinscript",
   "version": "0.0.1",
-  "description": "Bitscript is a language that compiles to Bitcoin's stack based script language.",
+  "description": "Coinscript is an experimental language that compiles to Bitcoin's stack based script language.",
   "main": "./lib/",
   "scripts": {
     "test": "./node_modules/.bin/mocha --reporter spec test/"
   },
   "bin": {
-    "bitscript": "./cli.js"
+    "coinscript": "./cli.js"
   },
-  "repository": "",
+  "repository": "https://github.com/olalonde/coinscript.git",
   "keywords": [
     "bitcoin",
     "scriptpubkey",
-    "bitscript"
+    "coinscript"
   ],
   "author": "Olivier Lalonde <olalonde@gmail.com>",
   "license": "MIT",

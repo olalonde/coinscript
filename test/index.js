@@ -2,11 +2,11 @@ var should = require('should'),
   fs = require('fs'),
   jison = require('Jison'),
   Parser = jison.Parser,
-  bitscript = require('../'),
-  nodes = bitscript.nodes;
+  coinscript = require('../'),
+  nodes = coinscript.nodes;
 
 // Use in memory parser!
-var parser = new Parser(bitscript.grammar);
+var parser = new Parser(coinscript.grammar);
 parser.yy = nodes;
 var parse = parser.parse.bind(parser);
 function compile (source) {
@@ -22,7 +22,7 @@ var dirs = {
 // Read file names in compile-results/, excluding extension
 var names = [];
 fs.readdirSync(__dirname + '/' + dirs['compile-results']).forEach(function (file) {
-  var match = file.match(/(.+)\.bitscript$/);
+  var match = file.match(/(.+)\.coin/);
   if (match && match[1]) names.push(match[1]);
 });
 
@@ -30,7 +30,7 @@ fs.readdirSync(__dirname + '/' + dirs['compile-results']).forEach(function (file
 
 function parse_file (name, type) {
   type = type || 'compile-results';
-  var source = fs.readFileSync(__dirname + '/' + dirs[type] + name + '.bitscript', 'utf8');
+  var source = fs.readFileSync(__dirname + '/' + dirs[type] + name + '.coin', 'utf8');
   return parse(source);
 }
 
@@ -44,7 +44,7 @@ describe('Parsing', function () {
   });
 
   names.forEach(function (name) {
-    describe(name + '.bitscript', function () {
+    describe(name + '.coin', function () {
       var ast;
 
       it('should not throw errors', function () {
@@ -72,7 +72,7 @@ describe('Compiling', function () {
 
   function actual (name, type) {
     type = type || 'compile-results';
-    var source = fs.readFileSync(__dirname + '/' + dirs[type] + name + '.bitscript', 'utf8');
+    var source = fs.readFileSync(__dirname + '/' + dirs[type] + name + '.coin', 'utf8');
     return compile(source);
   }
 
@@ -106,7 +106,7 @@ describe('Compiling', function () {
   });
 
   names.forEach(function (name) {
-    describe(name + '.bitscript', function () {
+    describe(name + '.coin', function () {
       var result;
 
       it('should not throw errors', function () {
