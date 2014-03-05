@@ -69,3 +69,6 @@ Lots of optimization to do:
 
 For example: Don't OP_PICK uselessly. Some OP codes can be combined
 together (`OP_CHECKSIG OP_VERIFY` -> `OP_CHECKSIGVERIFY`). etc.
+
+Also need a way to encode the intermediate language to binary
+representation.
