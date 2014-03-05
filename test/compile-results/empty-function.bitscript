@@ -1,4 +1,3 @@
 function main(sig, pubKey) {
-
-
+  // some empty function!
 }

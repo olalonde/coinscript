@@ -1,0 +1,9 @@
+function main (sig, pubKey) {
+  pubKeyHash = 'somehash....';
+  pubKeyHashA = hash160(pubKey);
+
+  // should optimize to OP_EQUALVERIFY
+  assert(equal(pubKeyHash, pubKeyHashA));
+
+  assert(checksig(sig, pubkey));
+}
