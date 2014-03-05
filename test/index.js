@@ -1,6 +1,6 @@
 var should = require('should'),
   fs = require('fs'),
-  jison = require('Jison'),
+  jison = require('jison'),
   Parser = jison.Parser,
   coinscript = require('../'),
   nodes = coinscript.nodes;
