@@ -1,42 +1,50 @@
-var assert = require('assert'),
+var should = require('should'),
   fs = require('fs'),
   bitscript = require('../'),
   compile = bitscript.compile,
   nodes = bitscript.nodes,
   parse = bitscript.parse;
 
-var DATA_PATH = __dirname + '/data/';
+var dirs = {
+  compile_errors: 'compile-errors/',
+  compile_results: 'compile-results/'
+};
 
-// Read file names in data/, excluding extension
-var files = [];
-fs.readdirSync(DATA_PATH).forEach(function (file) {
+// Read file names in compile-results/, excluding extension
+var names = [];
+fs.readdirSync(__dirname + '/' + dirs.compile_results).forEach(function (file) {
   var match = file.match(/(.+)\.bitscript$/);
-  if (match && match[1]) files.push(match[1]);
+  if (match && match[1]) names.push(match[1]);
 });
 
 //@todo test parsing
 
-describe('Parsing', function () {
-  files.forEach(function (file) {
-    var source = fs.readFileSync(DATA_PATH + file + '.bitscript', 'utf8');
+function parse_file (name, type) {
+  type = type || 'compile_results';
+  var source = fs.readFileSync(__dirname + '/' + dirs[type] + name + '.bitscript', 'utf8');
+  return parse(source);
+}
 
-    describe(file + '.bitscript', function () {
+describe('Parsing', function () {
+
+  names.forEach(function (name) {
+    describe(name + '.bitscript', function () {
       var ast;
 
       it('should not throw errors', function () {
-        ast = parse(source);
+        ast = parse_file(name);
       });
 
       it('should not return an object', function () {
-        assert.equal('object', typeof ast);
+        should.equal('object', typeof ast);
       });
 
       it('should return a Root node', function () {
-        assert.ok(ast instanceof nodes.Root);
+        should.ok(ast instanceof nodes.Root);
       });
 
       it('the Root node should be an instance of Base node', function () {
-        assert.ok(ast instanceof nodes.Base);
+        should.ok(ast instanceof nodes.Base);
       });
 
     });
@@ -45,19 +53,36 @@ describe('Parsing', function () {
 });
 
 describe('Compilation', function () {
-  files.forEach(function (file) {
-    var source = fs.readFileSync(DATA_PATH + file + '.bitscript', 'utf8');
-    var expected = fs.readFileSync(DATA_PATH + file + '.res', 'utf8');
 
-    describe(file + '.bitscript', function () {
+  function actual (name, type) {
+    type = type || 'compile_results';
+    var source = fs.readFileSync(__dirname + '/' + dirs[type] + name + '.bitscript', 'utf8');
+    return compile(source);
+  }
+
+  function expected (name, type) {
+    type = type || 'compile_results';
+    return fs.readFileSync(__dirname + '/' + dirs[type] + name + '.res', 'utf8');
+  }
+
+  describe('a source without a main function', function () {
+    it('should throw an error', function () {
+      should.throws(function () {
+        actual('no-main-function', 'compile_errors');
+      }, /main\(\)/);
+    });
+  });
+
+  names.forEach(function (name) {
+    describe(name + '.bitscript', function () {
       var result;
 
       it('should not throw errors', function () {
-        result = compile(source);
+        result = actual(name);
       });
 
       it('should produce expected code', function () {
-        assert.equal(expected, result);
+        should.equal(expected(name), result);
       });
 
     });
