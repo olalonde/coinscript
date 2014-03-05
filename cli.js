@@ -8,7 +8,7 @@ var program = require('commander'),
   jison = require('jison'),
   Parser = jison.Parser,
   bitscript = require('./lib'),
-  parser = bitscript.parser.parser,
+  parser = bitscript.parser,
   nodes = bitscript.nodes,
   grammar = bitscript.grammar;
 
