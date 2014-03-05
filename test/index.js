@@ -97,6 +97,14 @@ describe('Compiling', function () {
     });
   });
 
+  describe('assigning a var to an undefined var', function () {
+    it('should throw an error', function () {
+      should.throws(function () {
+        actual('assign-var-to-undefined-var', 'compile-errors');
+      }, /undefined/i);
+    });
+  });
+
   names.forEach(function (name) {
     describe(name + '.bitscript', function () {
       var result;
