@@ -1,0 +1,2 @@
+somesig
+OP_VERIFY
