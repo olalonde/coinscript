@@ -1,0 +1,5 @@
+function main (sig, pubKey) {
+  datatohash = 'somedata';
+  equal(datatohash, 'aaa');
+  equal(datatohash, 'bbb');
+}
