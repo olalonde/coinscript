@@ -1,0 +1,4 @@
+function main() {
+  somevar = 'abc';
+  equal(somevar, 'wow');
+}

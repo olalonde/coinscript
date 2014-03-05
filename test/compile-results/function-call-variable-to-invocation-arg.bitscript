@@ -1,0 +1,4 @@
+function main() {
+  actualhash = hash160('data to hash');
+  assert(actualhash, 'expectedhash');
+}

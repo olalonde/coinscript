@@ -68,7 +68,7 @@ describe('Parsing', function () {
   });
 });
 
-describe('Compilation', function () {
+describe('Compiling', function () {
 
   function actual (name, type) {
     type = type || 'compile-results';
