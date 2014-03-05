@@ -6,13 +6,14 @@ var should = require('should'),
   parse = bitscript.parse;
 
 var dirs = {
-  compile_errors: 'compile-errors/',
-  compile_results: 'compile-results/'
+  'compile-errors': 'compile-errors/',
+  'compile-results': 'compile-results/',
+  'syntax-errors': 'syntax-errors/'
 };
 
 // Read file names in compile-results/, excluding extension
 var names = [];
-fs.readdirSync(__dirname + '/' + dirs.compile_results).forEach(function (file) {
+fs.readdirSync(__dirname + '/' + dirs['compile-results']).forEach(function (file) {
   var match = file.match(/(.+)\.bitscript$/);
   if (match && match[1]) names.push(match[1]);
 });
@@ -20,12 +21,19 @@ fs.readdirSync(__dirname + '/' + dirs.compile_results).forEach(function (file) {
 //@todo test parsing
 
 function parse_file (name, type) {
-  type = type || 'compile_results';
+  type = type || 'compile-results';
   var source = fs.readFileSync(__dirname + '/' + dirs[type] + name + '.bitscript', 'utf8');
   return parse(source);
 }
 
 describe('Parsing', function () {
+  describe ('an invalid function declaration', function () {
+    it('should throw a parse error', function () {
+      should.throws(function () {
+        parse_file('invalid-function-declaration', 'syntax-errors');
+      }, /Parse error/);
+    });
+  });
 
   names.forEach(function (name) {
     describe(name + '.bitscript', function () {
@@ -55,20 +63,20 @@ describe('Parsing', function () {
 describe('Compilation', function () {
 
   function actual (name, type) {
-    type = type || 'compile_results';
+    type = type || 'compile-results';
     var source = fs.readFileSync(__dirname + '/' + dirs[type] + name + '.bitscript', 'utf8');
     return compile(source);
   }
 
   function expected (name, type) {
-    type = type || 'compile_results';
+    type = type || 'compile-results';
     return fs.readFileSync(__dirname + '/' + dirs[type] + name + '.res', 'utf8');
   }
 
   describe('a source without a main function', function () {
     it('should throw an error', function () {
       should.throws(function () {
-        actual('no-main-function', 'compile_errors');
+        actual('no-main-function', 'compile-errors');
       }, /main\(\)/);
     });
   });
