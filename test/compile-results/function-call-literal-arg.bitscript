@@ -1,0 +1,3 @@
+function main(sig, pubKey) {
+  equal('abc', 'abc');
+}
