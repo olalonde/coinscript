@@ -1,0 +1,5 @@
+function main(sig, pubKey) {
+  someint = 1337;
+  somefloat = 1337.334;
+  somefloat = 0.1;
+}
