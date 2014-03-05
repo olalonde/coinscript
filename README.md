@@ -1,5 +1,7 @@
 # Coinscript
 
+[![Build Status](https://travis-ci.org/olalonde/coinscript.png)](https://travis-ci.org/olalonde/coinscript)
+
 Language and compiler for Bitcoin scripts.
 
 Coinscript uses a Javascript like syntax.
