@@ -1,5 +1,5 @@
 function main (sig, pubKey) {
   equal(sig, 'aaa');
-  equal(pubkey, 'bbb');
+  equal(pubKey, 'bbb');
   equal(sig, 'ccc');
 }

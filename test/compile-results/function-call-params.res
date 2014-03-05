@@ -1,2 +1,3 @@
+OP_PICK 0
 somesig
 OP_VERIFY
