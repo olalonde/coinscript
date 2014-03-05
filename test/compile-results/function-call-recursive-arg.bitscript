@@ -1,0 +1,3 @@
+function main() {
+  assert(hash160(hash256('wow')), sha256('expectedhash'));
+}
