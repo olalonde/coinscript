@@ -4,6 +4,5 @@ function main (sig, pubKey) {
 
   // should optimize to OP_EQUALVERIFY
   assert(equal(pubKeyHash, pubKeyHashA));
-
-  assert(checksig(sig, pubkey));
+  assert(checksig(sig, pubKey));
 }
