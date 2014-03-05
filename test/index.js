@@ -1,9 +1,17 @@
 var should = require('should'),
   fs = require('fs'),
+  jison = require('Jison'),
+  Parser = jison.Parser,
   bitscript = require('../'),
-  compile = bitscript.compile,
-  nodes = bitscript.nodes,
-  parse = bitscript.parse;
+  nodes = bitscript.nodes;
+
+// Use in memory parser!
+var parser = new Parser(bitscript.grammar);
+parser.yy = nodes;
+var parse = parser.parse.bind(parser);
+function compile (source) {
+  return parse(source).compile();
+}
 
 var dirs = {
   'compile-errors': 'compile-errors/',
