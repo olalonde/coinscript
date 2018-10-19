@@ -1,6 +1,6 @@
 {
   "name": "coinscript",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Coinscript is an experimental language that compiles to Bitcoin's stack based script language.",
   "main": "./lib/",
   "scripts": {
